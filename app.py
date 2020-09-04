@@ -13,7 +13,7 @@ map_png_filename = "map.png"
 def index():
     #map_ = Path(get_package_share_directory('navigation2_agbee'), 'map')
     #map_filename = "/home/omose/Desktop/map.pgm" #map_ / 'test.png'
-    pgm_file = Image.open(map_file)
+    pgm_file = Image.open(map_filepath)
     pgm_file.save(map_png_filename, "png")
     map_filename = map_png_filename
     return render_template("app.html", map_image=map_filename)
