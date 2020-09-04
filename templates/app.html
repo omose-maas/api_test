@@ -5,6 +5,63 @@
         <title>agbee setting</title>
     </head>
     <body>
-        <img src="{{ map_image }}" alt="map"></img>
+        <div id="map-wrap">
+            <img id="map" src="{{ map_image }}" alt="map"></img>
+        </div>
+        <div class="cordinates-block">
+            <h1>クリックしたタイミング（初期値）</h1>
+            <p>X1 = <span id="dispX1">0</span></p>
+            <p>Y1 = <span id="dispY1">0</span></p>
+            <h1>クリックを離したタイミング</h1>
+            <p>X2 = <span id="dispX2">0</span></p>
+            <p>Y2 = <span id="dispY2">0</span></p>
+            <h1>角度</h1>
+            <p>D = <span id="dispD">0</span></p>
+        </div>
     </body>
+<script>
+    document.ondragstart = function(){return false;}
+    var x1, x2, y1, y2;
+
+    document.getElementById("map").addEventListener("mousedown", function(event){
+        var tapX = event.pageX
+        var tapY = event.pageY
+        var clientRact = this.getBoundingClientRect()
+        var positionX = clientRact.left + window.pageXOffset
+        var positionY = clientRact.left + window.pageYOffset
+
+        x1 = tapX - positionX
+        y1 = tapY - positionY
+        var dispX1 = document.getElementById('dispX1')
+        var dispY1 = document.getElementById('dispY1')
+
+        dispX1.innerHTML = x1.toString()
+        dispY1.innerHTML = y1.toString()
+    })
+
+    document.getElementById("map").addEventListener("mouseup", function(event){
+        var tapX = event.pageX
+        var tapY = event.pageY
+        var clientRact = this.getBoundingClientRect()
+        var positionX = clientRact.left + window.pageXOffset
+        var positionY = clientRact.left + window.pageYOffset
+
+        x2 = tapX - positionX
+        y2 = tapY - positionY
+        var dispX2 = document.getElementById('dispX2')
+        var dispY2 = document.getElementById('dispY2')
+
+        dispX2.innerHTML = x2.toString()
+        dispY2.innerHTML = y2.toString()
+        calDegree(x1, y1, x2, y2)
+    })
+
+    function calDegree(x1, y1, x2, y2) {
+        //y座標系が一般的な座標系と逆向きなので-でくくってます
+        var radian = Math.atan2(-(y2 - y1),x2 - x1)
+        var degree = radian * (180/Math.PI)
+        document.getElementById('dispD').innerHTML = degree.toString()
+    }
+
+</script>
 </html>
